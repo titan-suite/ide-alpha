@@ -55,9 +55,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
 
-"@titan-suite/aion-to-graphql@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@titan-suite/aion-to-graphql/-/aion-to-graphql-0.0.4.tgz#1509135c27c63f31e55f5f9479f07ee93cd46cef"
+"@titan-suite/aion-to-graphql@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@titan-suite/aion-to-graphql/-/aion-to-graphql-0.0.5.tgz#0f60744758b6efc6e9b596f61257f12f87cf7ec6"
   dependencies:
     aion-web3 "^0.0.3"
     apollo-server "^2.0.0"
@@ -183,6 +183,13 @@
 "@types/ws@^5.1.2":
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/@types/ws/-/ws-5.1.2.tgz#f02d3b1cd46db7686734f3ce83bdf46c49decd64"
+  dependencies:
+    "@types/events" "*"
+    "@types/node" "*"
+
+"@types/ws@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-6.0.0.tgz#4787c4194c29cc6361208dcf4e580e208794e012"
   dependencies:
     "@types/events" "*"
     "@types/node" "*"
@@ -478,8 +485,8 @@ apollo-upload-server@^5.0.0:
     object-path "^0.11.4"
 
 apollo-utilities@^1.0.0, apollo-utilities@^1.0.1:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.18.tgz#e4ee91534283fde2b744a26caaea120fe6a94f67"
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.19.tgz#f2d253bb8aa1395b62ded2f7749884233b5838e2"
   dependencies:
     fast-json-stable-stringify "^2.0.0"
 
@@ -593,8 +600,8 @@ aws-lambda@^0.1.2:
     dotenv "^0.4.0"
 
 aws-sdk@^*:
-  version "2.295.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.295.0.tgz#b034cd101702a6e31a59e6ff9e953986d573310d"
+  version "2.296.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.296.0.tgz#109016088b7edc063a5e5bc36537632e02e91447"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -3990,8 +3997,8 @@ semver-diff@^2.0.0:
     semver "^5.0.3"
 
 "semver@2 || 3 || 4 || 5", semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@^5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.1.tgz#7dfdd8814bdb7cabc7be0fb1d734cfb66c940477"
 
 send@0.16.2:
   version "0.16.2"

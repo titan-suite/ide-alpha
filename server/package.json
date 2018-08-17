@@ -1,8 +1,7 @@
 {
-  "name": "titan-ide-server",
-  "version": "0.0.2",
+  "name": "@titan-suite/ide",
   "description": "Server for Titan IDE",
-  "repository": "https://github.com/titan-suite/ide",
+  "repository": "https://github.com/titan-suite/ide/tree/dev/titan-ide-server",
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "nodemon --exec ts-node src/index.ts",
@@ -14,23 +13,23 @@
     "url": "https://titan-suite.com"
   },
   "dependencies": {
+    "@titan-suite/aion-to-graphql": "^0.0.5",
     "@types/bluebird": "^3.5.23",
+    "aion-web3": "^0.0.3",
     "apollo-link-schema": "^1.1.0",
     "apollo-server-express": "^2.0.0",
     "bluebird": "^3.5.1",
+    "express": "4.16.3",
+    "graphql": "^0.13.2",
     "graphql-yoga": "^1.16.0",
     "solc": "^0.4.24",
-    "aion-web3": "^0.0.3",
-    "@titan-suite/aion-to-graphql": "^0.0.4",
-    "tcp-port-used": "^0.1.2",
-    "graphql": "^0.13.2",
-    "express": "4.16.3"
+    "tcp-port-used": "^0.1.2"
   },
   "devDependencies": {
-    "@types/ws": "^5.1.2",
-    "nodemon": "^1.18.3",
+    "@types/ws": "^6.0.0",
     "graphql-code-generator": "^0.10.5",
     "graphql-codegen-typescript-template": "^0.10.5",
+    "nodemon": "^1.18.3",
     "ts-node": "^7.0.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.14.0",
