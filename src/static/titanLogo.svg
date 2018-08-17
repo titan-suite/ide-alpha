@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="411px" height="411px" viewBox="0 0 411 411" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 6</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-6" fill-rule="nonzero">
+            <circle id="Oval-2-Copy-2" fill="#000000" cx="205.5" cy="205.5" r="205.5"></circle>
+            <g id="Group-4" transform="translate(91.000000, 98.000000)">
+                <path d="M192.29354,64.9932886 L0,64.9932886 L37.8989139,18.0536913 L192.29354,18.0536913 L192.29354,0 L221.171589,0 L221.171589,81.2416107 L192.29354,81.2416107 L192.29354,64.9932886 Z" id="Combined-Shape-Copy-2" fill="#FFCC38"></path>
+                <g id="Group-5" transform="translate(77.000000, 75.000000)">
+                    <polygon id="Rectangle-3-Copy-2" fill="#FFCC38" points="9.63414634 0.825503356 60.1707317 0.825503356 60.1707317 163.475108 34.902439 193.375878 9.63414634 163.475108"></polygon>
+                    <rect id="Rectangle-4-Copy-11" fill="#000000" transform="translate(32.912279, 103.256572) rotate(-20.000000) translate(-32.912279, -103.256572) " x="-0.47796503" y="100.548518" width="66.7804878" height="5.41610738"></rect>
+                    <rect id="Rectangle-4-Copy-10" fill="#000000" transform="translate(32.912279, 119.504894) rotate(-20.000000) translate(-32.912279, -119.504894) " x="-0.47796503" y="116.79684" width="66.7804878" height="5.41610738"></rect>
+                    <rect id="Rectangle-4-Copy-9" fill="#000000" transform="translate(32.912279, 135.753216) rotate(-20.000000) translate(-32.912279, -135.753216) " x="-0.47796503" y="133.045163" width="66.7804878" height="5.41610738"></rect>
+                    <rect id="Rectangle-4-Copy-8" fill="#000000" transform="translate(34.717157, 152.001538) rotate(-20.000000) translate(-34.717157, -152.001538) " x="1.32691302" y="149.293485" width="66.7804878" height="5.41610738"></rect>
+                </g>
+                <ellipse id="Oval-Copy-2" fill="#000000" cx="111.902439" cy="41.5234899" rx="9.02439024" ry="9.02684564"></ellipse>
+            </g>
+        </g>
+    </g>
+</svg>

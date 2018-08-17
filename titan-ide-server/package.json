@@ -1,0 +1,39 @@
+{
+  "name": "titan-ide-server",
+  "version": "0.0.2",
+  "description": "Server for Titan IDE",
+  "repository": "https://github.com/titan-suite/ide",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "generate-types": "gql-gen --schema http://localhost:4000 --template graphql-codegen-typescript-template --out ./src/typings/ ./src/schema/*.graphql"
+  },
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Arjit Khullar",
+    "url": "https://titan-suite.com"
+  },
+  "dependencies": {
+    "@types/bluebird": "^3.5.23",
+    "apollo-link-schema": "^1.1.0",
+    "apollo-server-express": "^2.0.0",
+    "bluebird": "^3.5.1",
+    "graphql-yoga": "^1.16.0",
+    "solc": "^0.4.24",
+    "aion-web3": "^0.0.3",
+    "@titan-suite/aion-to-graphql": "^0.0.4",
+    "tcp-port-used": "^0.1.2",
+    "graphql": "^0.13.2",
+    "express": "4.16.3"
+  },
+  "devDependencies": {
+    "@types/ws": "^5.1.2",
+    "nodemon": "^1.18.3",
+    "graphql-code-generator": "^0.10.5",
+    "graphql-codegen-typescript-template": "^0.10.5",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.14.0",
+    "typescript": "^3.0.1"
+  }
+}

@@ -1,0 +1,23 @@
+type ContractData {
+  data: String!
+}
+type Query {
+  listAccounts(web3Address: String!): ContractData!
+}
+type Mutation {
+  compileContract(contract: String!): ContractData!
+  unlockAccount(
+    web3Address: String!
+    mainAccount: String!
+    mainAccountPass: String!
+  ): Boolean!
+  deployContract(
+    contract: String!
+    contractName: String!
+    web3Address: String!
+    mainAccount: String
+    mainAccountPass: String!
+    gas: Int
+    contractArguments: String
+  ): ContractData!
+}

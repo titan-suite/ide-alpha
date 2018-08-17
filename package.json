@@ -1,0 +1,45 @@
+{
+  "name": "titan-ide",
+  "description": "IDE for Titan Suite",
+  "repository": "https://github.com/titan-suite/titan-ide",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@material-ui/core": "latest",
+    "@material-ui/icons": "^2.0.0",
+    "@types/graphql": "^0.13.3",
+    "@types/node": "^10.5.2",
+    "@types/prop-types": "^15.5.3",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "@types/ws": "^6.0.0",
+    "apollo-boost": "^0.1.10",
+    "apollo-link-context": "^1.0.8",
+    "apollo-link-ws": "^1.0.8",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
+    "react": "latest",
+    "react-apollo": "^2.1.9",
+    "react-dom": "latest",
+    "react-ga": "^2.5.3",
+    "react-json-view": "^1.19.1",
+    "react-monaco-editor": "^0.18.0",
+    "react-scripts-ts": "latest",
+    "solhint": "^1.2.1",
+    "subscriptions-transport-ws": "^0.9.12"
+  },
+  "devDependencies": {
+    "@types/jest": "*",
+    "@types/node": "*",
+    "typescript": "latest"
+  },
+  "author": {
+    "name": "Arjit Khullar",
+    "url": "https://titan-suite.com"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  }
+}
