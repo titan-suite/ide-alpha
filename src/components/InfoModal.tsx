@@ -30,21 +30,39 @@ const InfoModal: React.SFC<Arguments> = ({ open, handleClose, logEvent }) => {
         <DialogContent>
           <DialogContentText>
             Welcome to Titan IDE. To get started :
-            <br />
-            1. Clone or download the IDE server
-            <br />
-            2. `npm install && npm run start` or If you prefer yarn do `yarn &&
-            yarn start`
-            <br />
-            3. Something wrong? Try updating ide-server
-            <br />
+            <ol>
+            <li>Download the IDE server</li>
+            <li>Setup the server</li>
+            <ul>
+              <li>// with npm</li>
+              cd server && npm install && npm run start
+              <li>// with yarn</li> 
+              cd server && yarn && yarn start
+            </ul>
+            </ol>
+            Something wrong? Try updating the server
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button
             onClick={() => {
               logEvent('Redirect to Github')
-              window.open('https://github.com/titan-suite/ide-server', '_blank')
+              window.open(
+                'https://github.com/titan-suite/ide/blob/dev/README.md',
+                '_blank'
+              )
+            }}
+            color="secondary"
+          >
+            How to use
+          </Button>
+          <Button
+            onClick={() => {
+              logEvent('Redirect to Github')
+              window.open(
+                'https://github.com/titan-suite/ide/releases',
+                '_blank'
+              )
             }}
             color="secondary"
           >
@@ -53,14 +71,17 @@ const InfoModal: React.SFC<Arguments> = ({ open, handleClose, logEvent }) => {
           <Button
             onClick={() => {
               logEvent('Report Issue')
-              window.open('https://github.com/titan-suite/ide/issues', '_blank')
+              window.open(
+                'https://github.com/titan-suite/ide/issues',
+                '_blank'
+              )
             }}
             color="secondary"
           >
             Report an Issue
           </Button>
           <Button onClick={() => handleClose()} color="secondary">
-            Okay
+            Close
           </Button>
         </DialogActions>
       </Dialog>

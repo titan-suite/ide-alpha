@@ -37,7 +37,7 @@
     "url": "https://titan-suite.com"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
+    "dev": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
