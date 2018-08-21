@@ -28,7 +28,7 @@ const InfoModal: React.SFC<Arguments> = ({ open, handleClose, logEvent }) => {
       >
         <DialogTitle>Instructions</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText component="div">
             Welcome to Titan IDE. To get started :
             <ol>
             <li>Download the IDE server</li>
@@ -40,7 +40,7 @@ const InfoModal: React.SFC<Arguments> = ({ open, handleClose, logEvent }) => {
               cd server && yarn && yarn start
             </ul>
             </ol>
-            Something wrong? Try updating the server
+            Something's wrong? Try updating the server
           </DialogContentText>
         </DialogContent>
         <DialogActions>

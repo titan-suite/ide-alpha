@@ -40,7 +40,7 @@ import UnlockAccountButton from '../components/HandleAccountUnlock'
 import DeployContractButton from '../components/HandleContractDeployment'
 import Linting from '../components/HandleContractLinting'
 import InfoModel from '../components/InfoModal'
-const styles: StyleRulesCallback<'root'> = (theme) => ({
+const styles: StyleRulesCallback<'root'> = theme => ({
   root: {
     flexGrow: 1,
     overflow: 'hidden',
@@ -85,23 +85,23 @@ const styles: StyleRulesCallback<'root'> = (theme) => ({
 })
 
 type State = {
-  contract?: string
-  web3Address?: string
-  contractName?: string
-  contractArguments: string
-  mainAccount?: string
-  mainAccountPass?: string
-  gas?: number
-  json?: object
-  loading: boolean
-  showPlayground: boolean
-  isCompiled: boolean
-  openDialog: boolean
-  showAlert: boolean
-  newWeb3Address: boolean
-  alertMessage: string
-  error: any
-  mainAccounts: string[]
+  contract?: string;
+  web3Address?: string;
+  contractName?: string;
+  contractArguments: string;
+  mainAccount?: string;
+  mainAccountPass?: string;
+  gas?: number;
+  json?: object;
+  loading: boolean;
+  showPlayground: boolean;
+  isCompiled: boolean;
+  openDialog: boolean;
+  showAlert: boolean;
+  newWeb3Address: boolean;
+  alertMessage: string;
+  error: any;
+  mainAccounts: string[];
 }
 
 class Index extends React.Component<WithStyles<'root'>, State> {
@@ -126,7 +126,7 @@ contract Example {
     contractArguments: '',
     mainAccount: undefined,
     mainAccountPass: '',
-    gas: 2000000,
+    gas: 1500000,
     json: {},
     loading: false,
     showPlayground: false,
@@ -155,8 +155,9 @@ contract Example {
 
   logEventsToGA = async (event: string) => {
     ReactGA.event({
-      category: 'Navigation',
-      action: event
+      category: 'IDE',
+      action: event,
+      label: event
     })
   }
   onCompiled = async ({ compileContract }: any) => {
@@ -239,7 +240,7 @@ contract Example {
     this.setState({ contract: data })
   }
 
-  handleChange = (name: string) => (event: any) => {
+  handleInputChange = (name: string) => (event: any) => {
     this.setState({
       [name]: event.target.value
     } as any)
@@ -266,6 +267,32 @@ contract Example {
   componentDidUpdate() {
     localStorage.setItem('state', JSON.stringify(this.state))
   }
+
+  renderTextField(
+    label?: any,
+    value?: any,
+    onChange?: any,
+    type: any = 'text'
+  ) {
+    const classes: any = this.props.classes
+    return (
+      <TextField
+        label={label}
+        type={type}
+        onChange={onChange}
+        value={value}
+        className={classes.textField}
+        margin="normal"
+        InputProps={{
+          className: classes.input
+        }}
+        InputLabelProps={{
+          className: classes.label
+        }}
+      />
+    )
+  }
+
   render() {
     const classes: any = this.props.classes
 
@@ -310,7 +337,7 @@ contract Example {
           <LinearProgress color="secondary" style={{ background: '#101010' }} />
         )}
         <Grid container className={classes.root}>
-          <Grid item sm={8} xs={12}>
+          <Grid item md={8} xs={12}>
             <MonacoEditor
               theme="vs-dark"
               height="500"
@@ -327,7 +354,7 @@ contract Example {
               onChange={this.handleEditorChange}
             />
           </Grid>
-          <Grid item sm={4} xs={12} className={classes.customPadding}>
+          <Grid item md={4} xs={12} className={classes.customPadding}>
             <Grid container>
               <MuiThemeProvider
                 theme={createMuiTheme({
@@ -344,89 +371,16 @@ contract Example {
               >
                 <Grid item sm={12} xs={12}>
                   <ApolloConsumer>
-                    {(client) => (
-                      <TextField
-                        label="Web3 Provider URL"
-                        value={this.state.web3Address}
-                        onChange={async (event) => {
+                    {client =>
+                      this.renderTextField(
+                        'Web3 Provider URL',
+                        this.state.web3Address,
+                        async (event: any) => {
                           await this.getAccounts(client, event.target.value)
-                        }}
-                        className={classes.textField}
-                        margin="normal"
-                        InputProps={{
-                          className: classes.input
-                        }}
-                        InputLabelProps={{
-                          className: classes.label
-                        }}
-                      />
-                    )}
+                        }
+                      )
+                    }
                   </ApolloConsumer>
-                </Grid>
-                <Grid item sm={12} xs={12}>
-                  <TextField
-                    label="Contract To Deploy"
-                    value={this.state.contractName}
-                    onChange={this.handleChange('contractName')}
-                    className={classes.textField}
-                    margin="normal"
-                    InputProps={{
-                      className: classes.input
-                    }}
-                    InputLabelProps={{
-                      className: classes.label
-                    }}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  sm={12}
-                  xs={12}
-                  style={
-                    this.state.mainAccounts &&
-                    this.state.mainAccounts.length > 0
-                      ? undefined
-                      : { display: 'none' }
-                  }
-                >
-                  <TextField
-                    label="Contract Arguments (a,b,..)"
-                    value={this.state.contractArguments}
-                    onChange={this.handleChange('contractArguments')}
-                    className={classes.textField}
-                    margin="normal"
-                    InputProps={{
-                      className: classes.input
-                    }}
-                    InputLabelProps={{
-                      className: classes.label
-                    }}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  sm={12}
-                  xs={12}
-                  style={
-                    this.state.mainAccounts &&
-                    this.state.mainAccounts.length > 0
-                      ? undefined
-                      : { display: 'none' }
-                  }
-                >
-                  <TextField
-                    label="Gas"
-                    value={this.state.gas}
-                    onChange={this.handleChange('gas')}
-                    className={classes.textField}
-                    margin="normal"
-                    InputProps={{
-                      className: classes.input
-                    }}
-                    InputLabelProps={{
-                      className: classes.label
-                    }}
-                  />
                 </Grid>
                 <Grid
                   item
@@ -450,7 +404,7 @@ contract Example {
                         className: classes.input,
                         id: 'selectMainAccount'
                       }}
-                      onChange={this.handleChange('mainAccount')}
+                      onChange={this.handleInputChange('mainAccount')}
                     >
                       {this.state.mainAccounts.map(
                         ({ account, balance }: any, index: number) => (
@@ -463,9 +417,7 @@ contract Example {
                   </FormControl>
                 </Grid>
                 <Grid
-                  item
-                  sm={12}
-                  xs={12}
+                  container
                   style={
                     this.state.mainAccounts &&
                     this.state.mainAccounts.length > 0
@@ -473,20 +425,29 @@ contract Example {
                       : { display: 'none' }
                   }
                 >
-                  <TextField
-                    label="Main Account Password"
-                    type="password"
-                    value={this.state.mainAccountPass}
-                    onChange={this.handleChange('mainAccountPass')}
-                    className={classes.textField}
-                    margin="normal"
-                    InputProps={{
-                      className: classes.input
-                    }}
-                    InputLabelProps={{
-                      className: classes.label
-                    }}
-                  />
+                  {[
+                    [
+                      'Contract To Deploy',
+                      this.state.contractName,
+                      this.handleInputChange('contractName')
+                    ],
+                    [
+                      'Contract Arguments (a,b,..)',
+                      this.state.contractArguments,
+                      this.handleInputChange('contractArguments')
+                    ],
+                    ['Gas', this.state.gas, this.handleInputChange('gas')],
+                    [
+                      'Main Account Password',
+                      this.state.mainAccountPass,
+                      this.handleInputChange('mainAccountPass'),
+                      'password'
+                    ]
+                  ].map((field, index) => (
+                    <Grid item sm={12} xs={12} key={index}>
+                      {this.renderTextField(...field)}
+                    </Grid>
+                  ))}
                 </Grid>
 
                 <Grid item sm={12} xs={12}>

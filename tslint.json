@@ -66,7 +66,7 @@
     ],
     "quotemark": [true, "single", "jsx-double"],
     "radix": true,
-    "semicolon": [true, "never"],
+    "semicolon": [true, "never", "ignore-interfaces"],
     "switch-default": true,
 
     "trailing-comma": [false],
