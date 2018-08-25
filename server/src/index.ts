@@ -6,4 +6,6 @@ const server = new GraphQLServer({
   resolvers
 })
 
-server.start(() => console.log('Server is running on localhost:4000'))
+server.start({ playground: false }, () =>
+  console.log('Server ready!. Visit https://ide.titan-suite.com/')
+)

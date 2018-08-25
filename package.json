@@ -4,10 +4,10 @@
   "repository": "https://github.com/titan-suite/titan-ide",
   "license": "Apache-2.0",
   "dependencies": {
-    "@material-ui/core": "latest",
-    "@material-ui/icons": "^2.0.0",
+    "@material-ui/core": "1.5.1",
+    "@material-ui/icons": "^2.0.3",
     "@types/graphql": "^0.13.3",
-    "@types/node": "^10.5.2",
+    "@types/node": "^10.9.2",
     "@types/prop-types": "^15.5.3",
     "@types/react": "*",
     "@types/react-dom": "*",

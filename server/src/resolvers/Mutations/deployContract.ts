@@ -45,7 +45,7 @@ export const deployContract = {
       console.log('Contract Deployed at ' + deployedContract.address)
 
       await verifyPortUnused()
-      await saveGasAndAccountGlobally(SELECTED_ACCOUNT, GAS)
+      await setGlobals(SELECTED_ACCOUNT, GAS, web3)
       await startTitanPlayground(deployedContract, web3)
 
       return {
@@ -66,7 +66,7 @@ const verifyPortUnused = async () => {
     server.close()
   }
 }
-const saveGasAndAccountGlobally = async (mainAccount: string, gas: number) => {
+const setGlobals = async (mainAccount: string, gas: number, web3: any) => {
   interface Global {
     [key: string]: any
   }
@@ -74,6 +74,7 @@ const saveGasAndAccountGlobally = async (mainAccount: string, gas: number) => {
   g = global
   g.mainAccount = mainAccount
   g.gas = gas
+  g.web3 = web3
 }
 
 const startTitanPlayground = async (deployedContract: any, web3: any) => {

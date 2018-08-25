@@ -18,10 +18,13 @@ const web3CompileContract: (
   return new Promise((resolve, reject) => {
     web3.eth.compile.solidity(contract, (err: any, res: any) => {
       if (err) {
-        reject(err)
+        return reject(err)
+      }
+      if ('compile-error' in res) {
+        return reject(res['compile-error'].error)
       }
       if (res) {
-        resolve(res)
+        return resolve(res)
       }
     })
   })
@@ -64,7 +67,6 @@ const Web3DeployContract: (
   console.info('Deploying...')
   return new Promise((resolve, reject) => {
     if (contractArguments && contractArguments.length > 0) {
-      console.dir(contractArguments.split(','))
       web3.eth.contract(abi).new(
         ...contractArguments.split(','),
         {

@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
-    "lib": ["dom", "es6", "esnext", "esnext.asynciterable"],
     "sourceMap": true,
+    "lib": ["dom", "es6", "esnext", "esnext.asynciterable"],
     "rootDir": "src",
     "outDir": "./dist",
     "moduleResolution": "node",
@@ -22,5 +22,5 @@
     "allowSyntheticDefaultImports": false
   },
   "exclude": ["node_modules"],
-  "include": ["./src/**/*.tsx", "./src/**/*.ts"]
+  "include": ["./src/**/*.ts"]
 }

@@ -9,10 +9,10 @@ Titan IDE enables users to build **AION contracts with Solidity language**.
 2. Setup
 
    ```sh
+    // with yarn (recommended)
+    cd server && yarn && yarn start
     // with npm
     cd server && npm install && npm run start
-    // with yarn
-    cd server && yarn && yarn start
    ```
 
 3. Visit [https://ide.titan-suite.com](https://ide.titan-suite.com).
