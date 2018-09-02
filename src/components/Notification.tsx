@@ -16,6 +16,11 @@ const styles: StyleRulesCallback<'root'> = theme => ({
     boxShadow: '0 2px 5px 1px rgba(255, 105, 135, .3)'
   }
 })
+function sleep(delay: number = 0) {
+  return new Promise(resolve => {
+    setTimeout(resolve, delay)
+  })
+}
 
 function getLastSeenNotification() {
   const seen = document.cookie.replace(
@@ -28,6 +33,7 @@ function getLastSeenNotification() {
 async function getMessages() {
   try {
     if (!messages) {
+      await sleep(1e3) // Soften the pressure on the main thread.
       const result = await fetch(
         'https://raw.githubusercontent.com/titan-suite/ide/dev/notifications.json'
       )
@@ -39,7 +45,6 @@ async function getMessages() {
 
   messages = messages || []
 }
-
 interface State {
   open: boolean
   message: { id: number; text: string }

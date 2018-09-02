@@ -17,7 +17,7 @@ import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import gql from 'graphql-tag'
-import Notifications from '../components/Notification'
+import Notification from '../components/Notification'
 import ReactTerminal from '../components/ReactTerminal'
 import * as ReactGA from 'react-ga'
 ReactGA.initialize('UA-123181437-1')
@@ -341,7 +341,7 @@ contract Example {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Notifications />
+        <Notification />
         {this.state.loading && (
           <LinearProgress color="secondary" style={{ background: '#101010' }} />
         )}
