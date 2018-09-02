@@ -326,7 +326,7 @@ contract Example {
                 className={classes.playgroundButton}
                 onClick={() => {
                   this.logEventsToGA('Go to Playground')
-                  window.open('http://localhost:4001/playground', '_blank')
+                  window.open('http://localhost:4001/graphql', '_blank')
                 }}
               >
                 Interact with Functions
