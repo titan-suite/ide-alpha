@@ -17,7 +17,7 @@ The complete Smart Contract Development Environment.
 
 3. Visit [https://ide.titan-suite.com](https://ide.titan-suite.com).
 
-## Video Guide
+## [Video Guide](https://www.youtube.com/watch?v=dqfeFvpOUMA)
 
 [![Titan IDE](images/video_screenshot.png)](https://www.youtube.com/watch?v=dqfeFvpOUMA 'Titan IDE')
 
