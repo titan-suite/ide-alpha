@@ -14,7 +14,7 @@
     "url": "https://titan-suite.com"
   },
   "dependencies": {
-    "@titan-suite/aion-to-graphql": "^0.0.9",
+    "@titan-suite/aion-to-graphql": "^0.0.11",
     "aion-web3": "^0.0.3",
     "apollo-server-express": "^2.0.4",
     "bluebird": "^3.5.1",

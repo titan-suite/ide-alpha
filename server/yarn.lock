@@ -70,9 +70,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
 
-"@titan-suite/aion-to-graphql@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@titan-suite/aion-to-graphql/-/aion-to-graphql-0.0.9.tgz#7d6756f0ad8129c374182fea8061c8df46ce5a5f"
+"@titan-suite/aion-to-graphql@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@titan-suite/aion-to-graphql/-/aion-to-graphql-0.0.11.tgz#9dee128f66fe1fc2c1169b282c6b5123b922fc10"
   dependencies:
     aion-web3 "^0.0.3"
     apollo-server "^2.0.5"
@@ -81,7 +81,7 @@
     babel-register "^6.26.0"
     chai "^4.1.2"
     eslint-plugin-babel "^5.1.0"
-    graphql "^0.13.2"
+    graphql "^14.0.0"
     mocha "^5.2.0"
     solc "^0.4.24"
 
@@ -2171,11 +2171,17 @@ graphql-yoga@^1.16.0:
     graphql-tools "^3.0.0"
     subscriptions-transport-ws "^0.9.8"
 
-"graphql@^0.11.0 || ^0.12.0 || ^0.13.0", graphql@^0.13.2:
+"graphql@^0.11.0 || ^0.12.0 || ^0.13.0":
   version "0.13.2"
   resolved "http://registry.npmjs.org/graphql/-/graphql-0.13.2.tgz#4c740ae3c222823e7004096f832e7b93b2108270"
   dependencies:
     iterall "^1.2.1"
+
+graphql@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.0.0.tgz#4ee771c5266d08cb75df2d3ac41e8dd51ce3d599"
+  dependencies:
+    iterall "^1.2.2"
 
 growl@1.10.5:
   version "1.10.5"
@@ -2621,7 +2627,7 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-iterall@^1.1.3, iterall@^1.2.1:
+iterall@^1.1.3, iterall@^1.2.1, iterall@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.2.2.tgz#92d70deb8028e0c39ff3164fdbf4d8b088130cd7"
 

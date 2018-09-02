@@ -90,17 +90,7 @@ Based on the `Example` Contract in the screenshot above here is how we can inter
 
 ![Add](images/add.png)
 
-### 3. Setting num to 20
-
-```javascript
-mutation  {
-  setA(a: 20)
-}
-```
-
-![Set](images/setA.png)
-
-### 4. Combining Queries together
+### 3. Combining Queries together
 
 ```javascript
 query {
@@ -118,3 +108,16 @@ query {
 ```
 
 ![Combined](images/combined.png)
+
+### 4. Setting num to 96
+
+```javascript
+mutation  {
+  setA(a: 96){
+     blockHash
+     blockNumber
+  }
+}
+```
+
+![Set](images/setA.png)
