@@ -1,7 +1,13 @@
 import * as React from 'react'
-import TitanLogo from '../static/titanLogo.svg'
-import '../css/index.css'
+
 import { ApolloConsumer } from 'react-apollo'
+import gql from 'graphql-tag'
+import MonacoEditor from 'react-monaco-editor'
+import ReactJson from 'react-json-view'
+import { DebounceInput } from 'react-debounce-input'
+import * as ReactGA from 'react-ga'
+ReactGA.initialize('UA-123181437-1')
+ReactGA.pageview(window.location.pathname + window.location.search)
 
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
@@ -16,30 +22,28 @@ import Snackbar from '@material-ui/core/Snackbar'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
-import gql from 'graphql-tag'
-import Notification from '../components/Notification'
-import ReactTerminal from '../components/ReactTerminal'
-import * as ReactGA from 'react-ga'
-ReactGA.initialize('UA-123181437-1')
-ReactGA.pageview(window.location.pathname + window.location.search)
-
+import IconButton from '@material-ui/core/IconButton'
+import Info from '@material-ui/icons/Info'
+import CloseIcon from '@material-ui/icons/Close'
+import ArrowRightIcon from '@material-ui/icons/ArrowForwardIos'
+import ArrowLeftIcon from '@material-ui/icons/ArrowBackIos'
 import withStyles, {
   WithStyles,
   StyleRulesCallback
 } from '@material-ui/core/styles/withStyles'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
-import Info from '@material-ui/icons/Info'
-import CloseIcon from '@material-ui/icons/Close'
 
-import MonacoEditor from 'react-monaco-editor'
-import ReactJson from 'react-json-view'
 import withRoot from '../withRoot'
-import CompileContractButton from '../components/HandleContractCompilation'
-import UnlockAccountButton from '../components/HandleAccountUnlock'
-import DeployContractButton from '../components/HandleContractDeployment'
-import Linting from '../components/HandleContractLinting'
+import TitanLogo from '../static/titanLogo.svg'
+import '../css/index.css'
+import Notification from '../components/Notification'
+import ReactTerminal from '../components/ReactTerminal'
+import Compile from '../components/Compile'
+import Unlock from '../components/Unlock'
+import Deploy from '../components/Deploy'
+import Lint from '../components/Lint'
 import InfoModel from '../components/InfoModal'
+
 const styles: StyleRulesCallback<'root'> = theme => ({
   root: {
     flexGrow: 1,
@@ -80,12 +84,18 @@ const styles: StyleRulesCallback<'root'> = theme => ({
     borderRadius: 2,
     border: 0,
     color: '#FFAB00',
+    marginRight: '1rem',
     boxShadow: '0 2px 5px 1px rgba(255, 105, 135, .3)'
   },
   unLockSnackBar: {
     background: '#1e1e1e',
     color: '#ffab00',
     boxShadow: '0 2px 5px 1px rgba(255, 105, 135, .3)'
+  },
+  hidePanelButton: {
+    marginLeft: '-15px',
+    marginTop: '-15px',
+    position: 'absolute'
   }
 })
 
@@ -104,6 +114,7 @@ interface State {
   openDialog: boolean
   showAlert: boolean
   newWeb3Address: boolean
+  panelHidden: boolean
   alertMessage: string
   error: any
   mainAccounts: string[]
@@ -141,6 +152,7 @@ contract Example {
     openDialog: false,
     showAlert: false,
     newWeb3Address: true,
+    panelHidden: false,
     alertMessage: '',
     error: null,
     mainAccounts: []
@@ -263,9 +275,17 @@ contract Example {
   handleDialogClose = async () => {
     await this.setState({ openDialog: false })
   }
+
   handleAlertClose = (event: any) => {
     this.setState({ showAlert: false })
   }
+
+  handlePanelToggle = (event: any) => {
+    this.setState(prevState => {
+      return { panelHidden: !prevState.panelHidden }
+    })
+  }
+
   async componentDidMount() {
     let state: any = await localStorage.getItem('state')
     state = { ...JSON.parse(state), loading: false }
@@ -273,6 +293,7 @@ contract Example {
       this.setState(state)
     }
   }
+
   componentDidUpdate() {
     localStorage.setItem('state', JSON.stringify(this.state))
   }
@@ -346,10 +367,10 @@ contract Example {
           <LinearProgress color="secondary" style={{ background: '#101010' }} />
         )}
         <Grid container className={classes.root}>
-          <Grid item md={8} xs={12}>
+          <Grid item md={this.state.panelHidden ? 12 : 8} xs={12}>
             <MonacoEditor
               theme="vs-dark"
-              height="500"
+              height={this.state.panelHidden ? '1000' : '500'}
               language="sol"
               editorDidMount={() => null}
               options={{
@@ -362,10 +383,10 @@ contract Example {
               value={this.state.contract}
               onChange={this.handleEditorChange}
             />
-            {/* <Grid item sm={12} xs={12} className={classes.customPadding}> */}
+
             <Grid item sm={12} xs={12}>
               <Grid container spacing={24}>
-                <Linting contract={this.state.contract} />
+                <Lint contract={this.state.contract} />
                 {(this.state.showPlayground || this.state.isCompiled) && (
                   <Grid item xs={12}>
                     <Grid container spacing={24}>
@@ -388,7 +409,21 @@ contract Example {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item md={4} xs={12} className={classes.customPadding}>
+          <IconButton
+            color="secondary"
+            aria-label="Toggle"
+            onClick={this.handlePanelToggle}
+            className={classes.hidePanelButton}
+          >
+            {this.state.panelHidden ? <ArrowLeftIcon /> : <ArrowRightIcon />}
+          </IconButton>
+          <Grid
+            item
+            md={4}
+            xs={12}
+            className={classes.customPadding}
+            style={this.state.panelHidden ? { display: 'none' } : undefined}
+          >
             <Grid container>
               <MuiThemeProvider
                 theme={createMuiTheme({
@@ -405,15 +440,25 @@ contract Example {
               >
                 <Grid item sm={12} xs={12}>
                   <ApolloConsumer>
-                    {client =>
-                      this.renderTextField(
-                        'Web3 Provider URL',
-                        this.state.web3Address,
-                        async (event: any) => {
+                    {client => (
+                      <DebounceInput
+                        onChange={async (event: any) => {
                           await this.getAccounts(client, event.target.value)
-                        }
-                      )
-                    }
+                        }}
+                        value={this.state.web3Address}
+                        label="Web3 Provider URL"
+                        element={TextField as any}
+                        margin="normal"
+                        className={classes.textField}
+                        InputProps={{
+                          className: classes.input
+                        }}
+                        InputLabelProps={{
+                          className: classes.label
+                        }}
+                        debounceTimeout={300}
+                      />
+                    )}
                   </ApolloConsumer>
                 </Grid>
                 <Grid
@@ -486,7 +531,7 @@ contract Example {
 
                 <Grid item sm={12} xs={12}>
                   <Grid container className={classes.tree}>
-                    <CompileContractButton
+                    <Compile
                       contract={this.state.contract}
                       web3Address={this.state.web3Address}
                       onCompile={this.showLoading}
@@ -495,7 +540,7 @@ contract Example {
                       isLoading={this.state.loading}
                     />
 
-                    <UnlockAccountButton
+                    <Unlock
                       web3Address={this.state.web3Address}
                       mainAccountPass={this.state.mainAccountPass}
                       mainAccount={this.state.mainAccount}
@@ -504,7 +549,7 @@ contract Example {
                       onError={this.handleError}
                       isLoading={this.state.loading}
                     />
-                    <DeployContractButton
+                    <Deploy
                       contract={this.state.contract}
                       contractName={this.state.contractName}
                       web3Address={this.state.web3Address}
