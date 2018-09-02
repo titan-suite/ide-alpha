@@ -67,8 +67,6 @@ Deploy unlocks the selected the account then compiles and deploy the contract. A
 1. Input the Abi and Deployed contract address
 2. After the ABI successful parsed Contract interaction will be enabled at [http://localhost:4002/graphql](http://localhost:4002/graphql).
 
-![alreadyDeployed](images/alreadyDeployed.png)
-
 ## Interacting with functions
 
 Based on the `Example` Contract in the screenshot above here is how we can interact with the functions using GraphQL [Queries and Mutations](https://graphql.org/learn/queries/):
