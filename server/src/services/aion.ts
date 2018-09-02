@@ -120,24 +120,26 @@ export const deploy = async ({
   gas: number;
   web3: Web3;
   contractArguments: string | null | undefined;
-}) => {
-  const compiledCode: { [key: string]: any } = await web3CompileContract({
+}): Promise<{
+  deployedContract: { abi: any[]; address: string };
+  compiledCode: { [key: string]: any };
+}> => {
+  const compiledCode = (await web3CompileContract({
     contract,
     web3
-  })
+  })) as { [key: string]: any }
   await unlock({ mainAccount, mainAccountPass, web3 })
   let deployedContract
-
   try {
     if (contractName in compiledCode) {
-      deployedContract = await Web3DeployContract({
+      deployedContract = (await Web3DeployContract({
         mainAccount,
         abi: compiledCode[contractName].info.abiDefinition,
         code: compiledCode[contractName].code,
         web3,
         contractArguments,
         gas
-      })
+      })) as { abi: any[]; address: string }
     } else {
       throw new Error(`Contract "${contractName}" not found`)
     }

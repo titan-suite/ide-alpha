@@ -92,11 +92,14 @@ export interface MutationToUnlockAccountResolver<TParent = any, TResult = any> {
 }
 
 export interface MutationToDeployContractArgs {
-  contract: string;
-  contractName: string;
+  contract?: string;
+  contractName?: string;
+  alreadyDeployed: boolean;
+  abi?: string;
+  deployedContractAddress?: string;
   web3Address: string;
   mainAccount?: string;
-  mainAccountPass: string;
+  mainAccountPass?: string;
   gas?: number;
   contractArguments?: string;
 }

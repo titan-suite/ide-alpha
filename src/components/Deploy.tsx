@@ -6,6 +6,7 @@ import * as React from 'react'
 
 const DEPLOY_CONTRACT = gql`
   mutation DeployContract(
+    $alreadyDeployed: Boolean!
     $contract: String!
     $contractName: String!
     $web3Address: String!
@@ -15,6 +16,7 @@ const DEPLOY_CONTRACT = gql`
     $contractArguments: String
   ) {
     deployContract(
+      alreadyDeployed: $alreadyDeployed
       contract: $contract
       contractName: $contractName
       web3Address: $web3Address
@@ -63,10 +65,11 @@ const DeployContract: React.SFC<ContractArguments> = ({
         mainAccount,
         mainAccountPass,
         gas,
-        contractArguments
+        contractArguments,
+        alreadyDeployed: false
       }}
-      onError={(error) => onError(error)}
-      onCompleted={(data) => onDeployed(data)}
+      onError={error => onError(error)}
+      onCompleted={data => onDeployed(data)}
     >
       {(deployContract, { loading, error }) => (
         <Grid item sm={4} xs={4}>

@@ -17,9 +17,9 @@ The complete Smart Contract Development Environment.
 
 3. Visit [https://ide.titan-suite.com](https://ide.titan-suite.com).
 
-## [Video Guide](https://www.youtube.com/watch?v=dqfeFvpOUMA)
+## Video Guide
 
-[![Titan IDE](images/video_screenshot.png)](https://www.youtube.com/watch?v=dqfeFvpOUMA 'Titan IDE')
+[![Titan IDE](images/screenshot.png)](https://www.youtube.com/watch?v=dqfeFvpOUMA 'Titan IDE')
 
 ## Unlocking an account
 
@@ -34,6 +34,8 @@ The complete Smart Contract Development Environment.
 #### Requirements: Web3 provider url, Account, Password, Contract name
 
 #### Optional: Gas, Contract arguments
+
+Deploy unlocks the selected the account then compiles and deploy the contract. After successful deployment Contract interaction is enabled at [http://localhost:4001/graphql](http://localhost:4001/graphql).
 
 1. Steps listed above
 2. Name of the contract to deploy
@@ -56,9 +58,18 @@ The complete Smart Contract Development Environment.
 
 ![Bash](images/bash.png)
 
-## Interacting with functions
+## Interacting with already deployed Contract
 
-Once the contract is deployed Titan playground will be available at [http://localhost:4001/graphql](http://localhost:4001/graphql).
+#### Requirements: valid Web3 provider url, ABI, Deployed contract address
+
+#### Optional: Account, Gas
+
+1. Input the Abi and Deployed contract address
+2. After the ABI successful parsed Contract interaction will be enabled at [http://localhost:4002/graphql](http://localhost:4002/graphql).
+
+![alreadyDeployed](images/alreadyDeployed.png)
+
+## Interacting with functions
 
 Based on the `Example` Contract in the screenshot above here is how we can interact with the functions using GraphQL [Queries and Mutations](https://graphql.org/learn/queries/):
 

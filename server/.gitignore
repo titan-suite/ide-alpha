@@ -3,3 +3,4 @@ compiled
 .vscode/*
 !.vscode/launch.json
 .node-xmlhttprequest*
+titanrc.js

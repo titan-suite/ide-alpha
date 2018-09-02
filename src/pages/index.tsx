@@ -41,6 +41,7 @@ import ReactTerminal from '../components/ReactTerminal'
 import Compile from '../components/Compile'
 import Unlock from '../components/Unlock'
 import Deploy from '../components/Deploy'
+import AlreadyDeployed from '../components/AlreadyDeployed'
 import Lint from '../components/Lint'
 import InfoModel from '../components/InfoModal'
 
@@ -370,7 +371,7 @@ contract Example {
           <Grid item md={this.state.panelHidden ? 12 : 8} xs={12}>
             <MonacoEditor
               theme="vs-dark"
-              height={this.state.panelHidden ? '1000' : '500'}
+              height={this.state.panelHidden ? '800' : '500'}
               language="sol"
               editorDidMount={() => null}
               options={{
@@ -495,40 +496,41 @@ contract Example {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid
-                  container
-                  style={
-                    this.state.mainAccounts &&
-                    this.state.mainAccounts.length > 0
-                      ? undefined
-                      : { display: 'none' }
-                  }
-                >
-                  {[
-                    [
-                      'Contract To Deploy',
-                      this.state.contractName,
-                      this.handleInputChange('contractName')
-                    ],
-                    [
-                      'Contract Arguments (a,b,..)',
-                      this.state.contractArguments,
-                      this.handleInputChange('contractArguments')
-                    ],
-                    ['Gas', this.state.gas, this.handleInputChange('gas')],
-                    [
-                      'Main Account Password',
-                      this.state.mainAccountPass,
-                      this.handleInputChange('mainAccountPass'),
-                      'password'
-                    ]
-                  ].map((field, index) => (
-                    <Grid item sm={12} xs={12} key={index}>
-                      {this.renderTextField(...field)}
-                    </Grid>
-                  ))}
+                <Grid item sm={12} xs={12}>
+                  <Grid
+                    container
+                    style={
+                      this.state.mainAccounts &&
+                      this.state.mainAccounts.length > 0
+                        ? undefined
+                        : { display: 'none' }
+                    }
+                  >
+                    {[
+                      [
+                        'Contract To Deploy',
+                        this.state.contractName,
+                        this.handleInputChange('contractName')
+                      ],
+                      [
+                        'Contract Arguments (a,b,..)',
+                        this.state.contractArguments,
+                        this.handleInputChange('contractArguments')
+                      ],
+                      ['Gas', this.state.gas, this.handleInputChange('gas')],
+                      [
+                        'Main Account Password',
+                        this.state.mainAccountPass,
+                        this.handleInputChange('mainAccountPass'),
+                        'password'
+                      ]
+                    ].map((field, index) => (
+                      <Grid item sm={12} xs={12} key={index}>
+                        {this.renderTextField(...field)}
+                      </Grid>
+                    ))}
+                  </Grid>
                 </Grid>
-
                 <Grid item sm={12} xs={12}>
                   <Grid container className={classes.tree}>
                     <Compile
@@ -557,6 +559,15 @@ contract Example {
                       mainAccountPass={this.state.mainAccountPass}
                       gas={this.state.gas}
                       contractArguments={this.state.contractArguments}
+                      onDeploy={this.showLoading}
+                      onError={this.handleError}
+                      onDeployed={this.onDeployed}
+                      isLoading={this.state.loading}
+                    />
+                    <AlreadyDeployed
+                      web3Address={this.state.web3Address}
+                      mainAccount={this.state.mainAccount}
+                      gas={this.state.gas}
                       onDeploy={this.showLoading}
                       onError={this.handleError}
                       onDeployed={this.onDeployed}

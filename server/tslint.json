@@ -12,7 +12,7 @@
     "one-variable-per-declaration": false,
     "only-arrow-functions": false,
     "ordered-imports": false,
-    "prefer-const": true,
+    "prefer-const": false,
     "quotemark": [true, "single"],
     "semicolon": [true, "never"],
     "space-before-function-paren": false,

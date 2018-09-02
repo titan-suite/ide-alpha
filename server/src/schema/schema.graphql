@@ -13,11 +13,14 @@ type Mutation {
     mainAccountPass: String!
   ): Boolean!
   deployContract(
-    contract: String!
-    contractName: String!
+    contract: String
+    contractName: String
+    alreadyDeployed: Boolean!
+    abi: String
+    deployedContractAddress: String
     web3Address: String!
     mainAccount: String
-    mainAccountPass: String!
+    mainAccountPass: String
     gas: Int
     contractArguments: String
   ): Data!
