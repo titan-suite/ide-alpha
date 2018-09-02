@@ -1,9 +1,9 @@
-const Web3 = require('aion-web3')
-import { ListAccountsQueryArgs } from '../../typings/types'
+import Web3 from 'aion-web3'
+import { QueryToListAccountsArgs } from '../../schema'
 import { promisify } from 'bluebird'
 
 export const listAccounts = {
-  listAccounts: async (_: any, { web3Address }: ListAccountsQueryArgs) => {
+  listAccounts: async (_: any, { web3Address }: QueryToListAccountsArgs) => {
     try {
       const { web3, accounts } = await getAccounts(web3Address)
       const mainAccounts =

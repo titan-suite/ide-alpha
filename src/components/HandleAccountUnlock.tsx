@@ -43,8 +43,8 @@ const UnlockAccount: React.SFC<UnlockArguments> = ({
         mainAccount,
         mainAccountPass
       }}
-      onError={(error) => onError(error)}
-      onCompleted={(data) => onUnlocked(data)}
+      onError={error => onError(error)}
+      onCompleted={data => onUnlocked(data)}
     >
       {(unlockAccount, { loading, error }) => (
         <Grid item sm={4} xs={4}>

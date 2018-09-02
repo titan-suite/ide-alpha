@@ -5,14 +5,15 @@ import Grid from '@material-ui/core/Grid'
 import * as React from 'react'
 
 const COMPILE_CONTRACT = gql`
-  mutation CompileContract($contract: String!) {
-    compileContract(contract: $contract) {
+  mutation CompileContract($contract: String!, $web3Address: String!) {
+    compileContract(contract: $contract, web3Address: $web3Address) {
       data
     }
   }
 `
 interface ContractArguments {
   contract?: string
+  web3Address: string
   onCompile: Function
   onError: Function
   onCompiled: Function
@@ -20,6 +21,7 @@ interface ContractArguments {
 }
 const CompileContract: React.SFC<ContractArguments> = ({
   contract,
+  web3Address,
   onCompile,
   onError,
   onCompiled,
@@ -29,10 +31,11 @@ const CompileContract: React.SFC<ContractArguments> = ({
     <Mutation
       mutation={COMPILE_CONTRACT}
       variables={{
-        contract
+        contract,
+        web3Address
       }}
-      onError={(error) => onError(error)}
-      onCompleted={(data) => onCompiled(data)}
+      onError={error => onError(error)}
+      onCompleted={data => onCompiled(data)}
     >
       {(compileContract, { loading, error }) => (
         <Grid item sm={4} xs={4}>

@@ -9,7 +9,8 @@ const configAsJson = {
     'compiler-fixed': true,
     'avoid-suicide': 'error',
     'avoid-sha3': 'warn',
-    indent: ['warn', 4]
+    indent: false,
+    'payable-fallback': false
   }
 }
 

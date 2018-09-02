@@ -1,11 +1,12 @@
 {
-  "name": "@titan-suite/ide",
+  "name": "@titan-suite/ide-server",
+  "version": "0.0.3",
   "description": "Server for Titan IDE",
   "repository": "https://github.com/titan-suite/ide/tree/dev/titan-ide-server",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon --exec ts-node src/index.ts",
-    "generate-types": "gql-gen --schema http://localhost:4000 --template graphql-codegen-typescript-template --out ./src/typings/ ./src/schema/*.graphql"
+    "start": "ts-node --files src/",
+    "dev": "nodemon -e ts -w ./src -x npm run start",
+    "generate-types": "graphql-schema-typescript generate-ts ./src/schema/schema.graphql --output ./src/schema/index.ts"
   },
   "license": "Apache-2.0",
   "author": {
@@ -13,22 +14,22 @@
     "url": "https://titan-suite.com"
   },
   "dependencies": {
-    "@titan-suite/aion-to-graphql": "^0.0.7",
-    "@types/bluebird": "^3.5.23",
+    "@titan-suite/aion-to-graphql": "^0.0.9",
     "aion-web3": "^0.0.3",
-    "apollo-link-schema": "^1.1.0",
     "apollo-server-express": "^2.0.4",
     "bluebird": "^3.5.1",
-    "express": "4.16.3",
-    "graphql": "^0.13.2",
+    "express": "^4.16.3",
     "graphql-yoga": "^1.16.0",
-    "solc": "^0.4.24",
     "tcp-port-used": "^1.0.0"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.23",
+    "@types/express": "^4.16.0",
+    "@types/graphql": "^0.13.4",
+    "@types/node": "^10.9.4",
     "@types/ws": "^6.0.0",
-    "graphql-code-generator": "^0.11.0",
-    "graphql-codegen-typescript-template": "^0.11.0",
+    "ethereum-types": "^1.0.5",
+    "graphql-schema-typescript": "^1.2.3",
     "nodemon": "^1.18.3",
     "ts-node": "^7.0.0",
     "tslint": "^5.11.0",

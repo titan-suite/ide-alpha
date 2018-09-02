@@ -1,20 +1,12 @@
-import {
-  Web3DeployContractArguments,
-  Web3CompileContractArguments,
-  Unlock,
-  Compile,
-  Deploy
-} from '../typings/aion.types'
+import Web3 from 'aion-web3'
 
-export const compile: (contract: Compile) => Promise<any> = async contract => {
-  console.info('Compiling...')
-  const res = await require('solc').compile(contract, 1)
-  return res
-}
-
-const web3CompileContract: (
-  args: Web3CompileContractArguments
-) => Promise<any> = async ({ contract, web3 }) => {
+export const web3CompileContract = async ({
+  contract,
+  web3
+}: {
+  contract: string;
+  web3: Web3;
+}): Promise<object> => {
   return new Promise((resolve, reject) => {
     web3.eth.compile.solidity(contract, (err: any, res: any) => {
       if (err) {
@@ -30,39 +22,50 @@ const web3CompileContract: (
   })
 }
 
-export const unlock: (args: Unlock) => Promise<any> = async ({
+export const unlock = async ({
   mainAccount,
   mainAccountPass,
   web3
+}: {
+  mainAccount: string;
+  mainAccountPass: string;
+  web3: Web3;
 }) => {
   console.info('Unlocking...')
   return new Promise((resolve, reject) => {
-    web3.personal.unlockAccount(
-      mainAccount,
-      mainAccountPass,
-      999999,
-      (err: any, isUnlocked: boolean) => {
-        if (err) {
-          reject(err)
-        } else if (isUnlocked && isUnlocked === true) {
-          resolve(isUnlocked)
-        } else {
-          reject('unlock failed')
-        }
-      }
-    )
+    web3.personal
+      ? web3.personal.unlockAccount(
+          mainAccount,
+          mainAccountPass,
+          999999,
+          (err: any, isUnlocked: boolean) => {
+            if (err) {
+              return reject(err)
+            } else if (isUnlocked && isUnlocked === true) {
+              return resolve(isUnlocked)
+            } else {
+              return reject('unlock failed')
+            }
+          }
+        )
+      : reject('Invalid Web3')
   })
 }
 
-const Web3DeployContract: (
-  args: Web3DeployContractArguments
-) => Promise<object> = async ({
+const Web3DeployContract = async ({
   mainAccount,
   abi,
   code,
   web3,
   contractArguments,
   gas
+}: {
+  mainAccount: string;
+  abi: [];
+  code: string;
+  web3: Web3;
+  gas: number;
+  contractArguments: string | null | undefined;
 }) => {
   console.info('Deploying...')
   return new Promise((resolve, reject) => {
@@ -101,7 +104,7 @@ const Web3DeployContract: (
   })
 }
 
-export const deploy: (args: Deploy) => object = async ({
+export const deploy = async ({
   contract,
   contractName,
   mainAccount,
@@ -109,17 +112,38 @@ export const deploy: (args: Deploy) => object = async ({
   web3,
   contractArguments,
   gas
+}: {
+  contract: string;
+  contractName: string;
+  mainAccount: string;
+  mainAccountPass: string;
+  gas: number;
+  web3: Web3;
+  contractArguments: string | null | undefined;
 }) => {
-  const compiledCode = await web3CompileContract({ contract, web3 })
-  await unlock({ mainAccount, mainAccountPass, web3 })
-  const deployedContract = await Web3DeployContract({
-    mainAccount,
-    abi: compiledCode[contractName].info.abiDefinition,
-    code: compiledCode[contractName].code,
-    web3,
-    contractArguments,
-    gas
+  const compiledCode: { [key: string]: any } = await web3CompileContract({
+    contract,
+    web3
   })
+  await unlock({ mainAccount, mainAccountPass, web3 })
+  let deployedContract
+
+  try {
+    if (contractName in compiledCode) {
+      deployedContract = await Web3DeployContract({
+        mainAccount,
+        abi: compiledCode[contractName].info.abiDefinition,
+        code: compiledCode[contractName].code,
+        web3,
+        contractArguments,
+        gas
+      })
+    } else {
+      throw new Error(`Contract "${contractName}" not found`)
+    }
+  } catch (e) {
+    throw e
+  }
   return {
     deployedContract,
     compiledCode

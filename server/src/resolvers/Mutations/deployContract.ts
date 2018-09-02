@@ -1,14 +1,16 @@
-const { ApolloServer } = require('apollo-server-express')
-const express = require('express')
-const { genGraphQlProperties } = require('@titan-suite/aion-to-graphql')
-const tcpPortUsed = require('tcp-port-used')
-const Web3 = require('aion-web3')
+import { ApolloServer } from 'apollo-server-express'
+import express from 'express'
+import tcpPortUsed from 'tcp-port-used'
+import Web3 from 'aion-web3'
+import { genGraphQlProperties } from '@titan-suite/aion-to-graphql'
 
 import { deploy } from '../../services/aion'
-import { DeployContractMutationArgs } from '../../typings/types'
+import { MutationToDeployContractArgs } from '../../schema'
 
 let server: any
-const PORT = 4001
+const options = {
+  port: 4001
+}
 
 export const deployContract = {
   async deployContract(
@@ -21,13 +23,14 @@ export const deployContract = {
       mainAccountPass,
       gas,
       contractArguments
-    }: DeployContractMutationArgs
+    }: MutationToDeployContractArgs
   ) {
     try {
       const web3 = new Web3(new Web3.providers.HttpProvider(web3Address))
-
+      const _mainAccounts = (web3.personal &&
+        web3.personal.listAccounts) as any[]
       const SELECTED_ACCOUNT: string = !mainAccount
-        ? web3.personal.listAccounts[0]
+        ? _mainAccounts[0]
         : mainAccount
 
       const GAS: number = !gas ? 1500000 : gas
@@ -41,11 +44,10 @@ export const deployContract = {
         contractArguments,
         gas: GAS
       })
-
       console.log('Contract Deployed at ' + deployedContract.address)
 
       await verifyPortUnused()
-      await setGlobals(SELECTED_ACCOUNT, GAS, web3)
+      await setGlobals(SELECTED_ACCOUNT, GAS)
       await startTitanPlayground(deployedContract, web3)
 
       return {
@@ -61,20 +63,16 @@ export const deployContract = {
 }
 
 const verifyPortUnused = async () => {
-  const inUse = await tcpPortUsed.check(PORT, '127.0.0.1')
+  const inUse = await tcpPortUsed.check(options.port, '127.0.0.1')
   if (inUse) {
     server.close()
   }
 }
-const setGlobals = async (mainAccount: string, gas: number, web3: any) => {
-  interface Global {
-    [key: string]: any
-  }
-  let g: Global
+const setGlobals = async (mainAccount: string, gas: number) => {
+  let g: global
   g = global
   g.mainAccount = mainAccount
   g.gas = gas
-  g.web3 = web3
 }
 
 const startTitanPlayground = async (deployedContract: any, web3: any) => {
@@ -93,9 +91,8 @@ const startTitanPlayground = async (deployedContract: any, web3: any) => {
     rootValue
   })
   apolloServer.applyMiddleware({ app })
-  server = app.listen(PORT, () => {
-    console.log(
-      `Visit http://localhost:${PORT}/graphql to interact with contracts`
-    )
-  })
+  server = await app.listen(options.port)
+  console.log(
+    `Visit http://localhost:${options.port}/graphql to interact with contracts`
+  )
 }

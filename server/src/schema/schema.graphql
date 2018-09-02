@@ -1,11 +1,12 @@
-type ContractData {
-  data: String!
+type Data {
+  data: String
 }
 type Query {
-  listAccounts(web3Address: String!): ContractData!
+  listAccounts(web3Address: String!): Data!
 }
 type Mutation {
-  compileContract(contract: String!): ContractData!
+  executeWeb3(web3Address: String!, command: String!): Data!
+  compileContract(contract: String!, web3Address: String!): Data!
   unlockAccount(
     web3Address: String!
     mainAccount: String!
@@ -19,5 +20,5 @@ type Mutation {
     mainAccountPass: String!
     gas: Int
     contractArguments: String
-  ): ContractData!
+  ): Data!
 }

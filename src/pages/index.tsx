@@ -17,6 +17,8 @@ import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import gql from 'graphql-tag'
+import Notifications from '../components/Notification'
+import ReactTerminal from '../components/ReactTerminal'
 import * as ReactGA from 'react-ga'
 ReactGA.initialize('UA-123181437-1')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -29,8 +31,6 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import Info from '@material-ui/icons/Info'
 import CloseIcon from '@material-ui/icons/Close'
-
-import red from '@material-ui/core/colors/red'
 
 import MonacoEditor from 'react-monaco-editor'
 import ReactJson from 'react-json-view'
@@ -81,27 +81,32 @@ const styles: StyleRulesCallback<'root'> = theme => ({
     border: 0,
     color: '#FFAB00',
     boxShadow: '0 2px 5px 1px rgba(255, 105, 135, .3)'
+  },
+  unLockSnackBar: {
+    background: '#1e1e1e',
+    color: '#ffab00',
+    boxShadow: '0 2px 5px 1px rgba(255, 105, 135, .3)'
   }
 })
 
-type State = {
-  contract?: string;
-  web3Address?: string;
-  contractName?: string;
-  contractArguments: string;
-  mainAccount?: string;
-  mainAccountPass?: string;
-  gas?: number;
-  json?: object;
-  loading: boolean;
-  showPlayground: boolean;
-  isCompiled: boolean;
-  openDialog: boolean;
-  showAlert: boolean;
-  newWeb3Address: boolean;
-  alertMessage: string;
-  error: any;
-  mainAccounts: string[];
+interface State {
+  contract?: string
+  web3Address?: string
+  contractName?: string
+  contractArguments: string
+  mainAccount?: string
+  mainAccountPass?: string
+  gas?: number
+  json?: object
+  loading: boolean
+  showPlayground: boolean
+  isCompiled: boolean
+  openDialog: boolean
+  showAlert: boolean
+  newWeb3Address: boolean
+  alertMessage: string
+  error: any
+  mainAccounts: string[]
 }
 
 class Index extends React.Component<WithStyles<'root'>, State> {
@@ -123,7 +128,7 @@ contract Example {
         NumChanged(num);
     }
 }`,
-    web3Address: '',
+    web3Address: 'http://',
     contractName: 'Example',
     contractArguments: '',
     mainAccount: undefined,
@@ -156,6 +161,9 @@ contract Example {
   }
 
   logEventsToGA = async (event: string) => {
+    if (process.env.NODE_ENV !== 'production') {
+      return
+    }
     ReactGA.event({
       category: 'IDE',
       action: event,
@@ -190,7 +198,6 @@ contract Example {
   }
 
   getAccounts = async (client: any, web3Address: string) => {
-    console.log(web3Address)
     await this.setState({
       web3Address
     })
@@ -223,13 +230,13 @@ contract Example {
         error: null
       })
     } catch (e) {
-      console.error(e)
+      // console.error(e)
       // this.handleError(e.graphQLErrors[0].message)s
     }
   }
 
   handleError = async (error: any) => {
-    console.dir(error)
+    console.log(error)
     await this.setState({
       loading: false,
       showPlayground: false,
@@ -314,27 +321,27 @@ contract Example {
             >
               TITAN IDE
             </Typography>
-            {this.state.showPlayground ? (
+            {this.state.showPlayground && (
               <Button
                 className={classes.playgroundButton}
                 onClick={() => {
                   this.logEventsToGA('Go to Playground')
-                  window.open('http://localhost:4001/graphql', '_blank')
+                  window.open('http://localhost:4001/playground', '_blank')
                 }}
               >
                 Interact with Functions
               </Button>
-            ) : (
-              <IconButton
-                color="secondary"
-                aria-label="Info"
-                onClick={this.handleDialogOpen}
-              >
-                <Info />
-              </IconButton>
             )}
+            <IconButton
+              color="secondary"
+              aria-label="Info"
+              onClick={this.handleDialogOpen}
+            >
+              <Info />
+            </IconButton>
           </Toolbar>
         </AppBar>
+        <Notifications />
         {this.state.loading && (
           <LinearProgress color="secondary" style={{ background: '#101010' }} />
         )}
@@ -355,6 +362,31 @@ contract Example {
               value={this.state.contract}
               onChange={this.handleEditorChange}
             />
+            {/* <Grid item sm={12} xs={12} className={classes.customPadding}> */}
+            <Grid item sm={12} xs={12}>
+              <Grid container spacing={24}>
+                <Linting contract={this.state.contract} />
+                {(this.state.showPlayground || this.state.isCompiled) && (
+                  <Grid item xs={12}>
+                    <Grid container spacing={24}>
+                      <Grid item xs={12}>
+                        <Typography variant="title">Contract Info</Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <ReactJson
+                          src={this.state.json}
+                          theme="summerfruit"
+                          iconStyle="square"
+                          indentWidth={2}
+                          collapsed={2}
+                          displayDataTypes={false}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                )}
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item md={4} xs={12} className={classes.customPadding}>
             <Grid container>
@@ -456,6 +488,7 @@ contract Example {
                   <Grid container className={classes.tree}>
                     <CompileContractButton
                       contract={this.state.contract}
+                      web3Address={this.state.web3Address}
                       onCompile={this.showLoading}
                       onError={this.handleError}
                       onCompiled={this.onCompiled}
@@ -488,45 +521,16 @@ contract Example {
                 </Grid>
                 <Grid item sm={12} xs={12}>
                   <Grid container justify={'center'} spacing={24}>
-                    {this.state.error && (
-                      <Typography
-                        gutterBottom
-                        align="center"
-                        style={{ color: red[500] }}
-                      >
-                        Error:
-                        {JSON.stringify(this.state.error)}
-                      </Typography>
-                    )}
+                    <ReactTerminal
+                      web3Address={this.state.web3Address}
+                      logEvent={this.logEventsToGA}
+                    />
                   </Grid>
                 </Grid>
               </MuiThemeProvider>
             </Grid>
           </Grid>
-          <Grid item sm={12} xs={12} className={classes.customPadding}>
-            <Grid container spacing={24}>
-              <Linting contract={this.state.contract} />
-              {(this.state.showPlayground || this.state.isCompiled) && (
-                <Grid item xs={12}>
-                  <Grid container spacing={24}>
-                    <Grid item xs={12}>
-                      <Typography variant="title">Contract Info</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <ReactJson
-                        src={this.state.json}
-                        theme="summerfruit"
-                        iconStyle="square"
-                        indentWidth={2}
-                        collapsed={2}
-                        displayDataTypes={false}
-                      />
-                    </Grid>
-                  </Grid>
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
+
           <InfoModel
             open={this.state.openDialog}
             handleClose={this.handleDialogClose}
@@ -537,7 +541,10 @@ contract Example {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           open={this.state.showAlert}
           ContentProps={{
-            'aria-describedby': 'message-id'
+            'aria-describedby': 'message-id',
+            classes: {
+              root: classes.unLockSnackBar
+            }
           }}
           message={<span id="message-id">{this.state.alertMessage}</span>}
           action={[
