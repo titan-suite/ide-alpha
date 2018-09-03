@@ -152,7 +152,7 @@ class AlreadyDeployed extends React.Component<Props, State> {
                       color="secondary"
                       className={classes.button}
                       onClick={() => {
-                        onDeploy()
+                        onDeploy('Already Deployed')
                         deployContract({
                           variables: {
                             alreadyDeployed: true,

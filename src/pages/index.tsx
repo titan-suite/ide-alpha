@@ -6,7 +6,7 @@ import MonacoEditor from 'react-monaco-editor'
 import ReactJson from 'react-json-view'
 import { DebounceInput } from 'react-debounce-input'
 import * as ReactGA from 'react-ga'
-ReactGA.initialize('UA-123181437-1')
+ReactGA.initialize('UA-123181437-2')
 ReactGA.pageview(window.location.pathname + window.location.search)
 
 import Button from '@material-ui/core/Button'
@@ -178,7 +178,7 @@ contract Example {
       return
     }
     ReactGA.event({
-      category: 'IDE',
+      category: event,
       action: event,
       label: event
     })
@@ -192,6 +192,10 @@ contract Example {
       error: null
     })
     this.logEventsToGA('Compiled')
+  }
+  handleDeploy = (type: string) => {
+    this.logEventsToGA(type)
+    this.showLoading()
   }
 
   onUnlocked = async ({ unlockContract }: any) => {
@@ -549,7 +553,7 @@ contract Example {
                             mainAccountPass={this.state.mainAccountPass}
                             gas={this.state.gas}
                             contractArguments={this.state.contractArguments}
-                            onDeploy={this.showLoading}
+                            onDeploy={this.handleDeploy}
                             onError={this.handleError}
                             onDeployed={this.onDeployed}
                             isLoading={this.state.loading}
@@ -558,7 +562,7 @@ contract Example {
                             web3Address={this.state.web3Address}
                             mainAccount={this.state.mainAccount}
                             gas={this.state.gas}
-                            onDeploy={this.showLoading}
+                            onDeploy={this.handleDeploy}
                             onError={this.handleError}
                             onDeployed={this.onDeployed}
                             isLoading={this.state.loading}

@@ -32,7 +32,6 @@ class ReactTerminal extends React.Component<Props, {}> {
             }}
             commands={{
               titan: (args: string[], print: (arg: string) => void) => {
-                this.props.logEvent('titan bash')
                 Promise.resolve(
                   executeWeb3({
                     variables: {
@@ -42,6 +41,7 @@ class ReactTerminal extends React.Component<Props, {}> {
                   })
                 )
                   .then((res: any) => {
+                    this.props.logEvent('titan bash')
                     console.log(JSON.parse(res.data.executeWeb3.data))
                   })
                   .catch(err => {

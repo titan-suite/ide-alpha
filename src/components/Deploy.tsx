@@ -79,7 +79,7 @@ const DeployContract: React.SFC<ContractArguments> = ({
                 variant="raised"
                 color="secondary"
                 onClick={() => {
-                  onDeploy()
+                  onDeploy('Deploy')
                   deployContract()
                 }}
               >
