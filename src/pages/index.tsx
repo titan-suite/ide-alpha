@@ -364,9 +364,11 @@ contract Example {
           </Toolbar>
         </AppBar>
         <Notification />
+
         {this.state.loading && (
           <LinearProgress color="secondary" style={{ background: '#101010' }} />
         )}
+
         <Grid container className={classes.root}>
           <Grid item md={this.state.panelHidden ? 12 : 8} xs={12}>
             <MonacoEditor
@@ -384,31 +386,27 @@ contract Example {
               value={this.state.contract}
               onChange={this.handleEditorChange}
             />
+            <Lint contract={this.state.contract} />
 
-            <Grid item sm={12} xs={12}>
-              <Grid container spacing={24}>
-                <Lint contract={this.state.contract} />
-                {(this.state.showPlayground || this.state.isCompiled) && (
+            {(this.state.showPlayground || this.state.isCompiled) && (
+              <Grid item xs={12}>
+                <Grid container spacing={24}>
                   <Grid item xs={12}>
-                    <Grid container spacing={24}>
-                      <Grid item xs={12}>
-                        <Typography variant="title">Contract Info</Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <ReactJson
-                          src={this.state.json}
-                          theme="summerfruit"
-                          iconStyle="square"
-                          indentWidth={2}
-                          collapsed={2}
-                          displayDataTypes={false}
-                        />
-                      </Grid>
-                    </Grid>
+                    <Typography variant="title">Contract Info</Typography>
                   </Grid>
-                )}
+                  <Grid item xs={8}>
+                    <ReactJson
+                      src={this.state.json}
+                      theme="summerfruit"
+                      iconStyle="square"
+                      indentWidth={2}
+                      collapsed={2}
+                      displayDataTypes={false}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
-            </Grid>
+            )}
           </Grid>
           <IconButton
             color="secondary"
@@ -418,6 +416,7 @@ contract Example {
           >
             {this.state.panelHidden ? <ArrowLeftIcon /> : <ArrowRightIcon />}
           </IconButton>
+
           <Grid
             item
             md={4}
@@ -462,137 +461,126 @@ contract Example {
                     )}
                   </ApolloConsumer>
                 </Grid>
-                <Grid
-                  item
-                  sm={12}
-                  xs={12}
-                  style={
-                    this.state.mainAccounts &&
-                    this.state.mainAccounts.length > 0
-                      ? undefined
-                      : { display: 'none' }
-                  }
-                >
-                  <FormControl className={classes.textField}>
-                    <InputLabel className={classes.label} htmlFor="age-simple">
-                      Main Account
-                    </InputLabel>
+                {this.state.mainAccounts &&
+                  this.state.mainAccounts.length > 0 && (
+                    <React.Fragment>
+                      <Grid item sm={12} xs={12}>
+                        <Grid container>
+                          <FormControl className={classes.textField}>
+                            <InputLabel
+                              className={classes.label}
+                              htmlFor="age-simple"
+                            >
+                              Main Account
+                            </InputLabel>
 
-                    <Select
-                      value={this.state.mainAccount || ''}
-                      inputProps={{
-                        className: classes.input,
-                        id: 'selectMainAccount'
-                      }}
-                      onChange={this.handleInputChange('mainAccount')}
-                    >
-                      {this.state.mainAccounts.map(
-                        ({ account, balance }: any, index: number) => (
-                          <MenuItem value={account} key={index}>
-                            {account.substring(0, 20)} ({balance})
-                          </MenuItem>
-                        )
-                      )}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item sm={12} xs={12}>
-                  <Grid
-                    container
-                    style={
-                      this.state.mainAccounts &&
-                      this.state.mainAccounts.length > 0
-                        ? undefined
-                        : { display: 'none' }
-                    }
-                  >
-                    {[
-                      [
-                        'Contract To Deploy',
-                        this.state.contractName,
-                        this.handleInputChange('contractName')
-                      ],
-                      [
-                        'Contract Arguments (a,b,..)',
-                        this.state.contractArguments,
-                        this.handleInputChange('contractArguments')
-                      ],
-                      ['Gas', this.state.gas, this.handleInputChange('gas')],
-                      [
-                        'Main Account Password',
-                        this.state.mainAccountPass,
-                        this.handleInputChange('mainAccountPass'),
-                        'password'
-                      ]
-                    ].map((field, index) => (
-                      <Grid item sm={12} xs={12} key={index}>
-                        {this.renderTextField(...field)}
+                            <Select
+                              value={this.state.mainAccount || ''}
+                              inputProps={{
+                                className: classes.input,
+                                id: 'selectMainAccount'
+                              }}
+                              onChange={this.handleInputChange('mainAccount')}
+                            >
+                              {this.state.mainAccounts.map(
+                                ({ account, balance }: any, index: number) => (
+                                  <MenuItem value={account} key={index}>
+                                    {account.substring(0, 20)} ({balance})
+                                  </MenuItem>
+                                )
+                              )}
+                            </Select>
+                          </FormControl>
+                          {[
+                            [
+                              'Contract To Deploy',
+                              this.state.contractName,
+                              this.handleInputChange('contractName')
+                            ],
+                            [
+                              'Contract Arguments (a,b,..)',
+                              this.state.contractArguments,
+                              this.handleInputChange('contractArguments')
+                            ],
+                            [
+                              'Gas',
+                              this.state.gas,
+                              this.handleInputChange('gas')
+                            ],
+                            [
+                              'Main Account Password',
+                              this.state.mainAccountPass,
+                              this.handleInputChange('mainAccountPass'),
+                              'password'
+                            ]
+                          ].map((field, index) => (
+                            <Grid item sm={12} xs={12} key={index}>
+                              {this.renderTextField(...field)}
+                            </Grid>
+                          ))}
+                        </Grid>
                       </Grid>
-                    ))}
-                  </Grid>
-                </Grid>
-                <Grid item sm={12} xs={12}>
-                  <Grid container className={classes.tree}>
-                    <Compile
-                      contract={this.state.contract}
-                      web3Address={this.state.web3Address}
-                      onCompile={this.showLoading}
-                      onError={this.handleError}
-                      onCompiled={this.onCompiled}
-                      isLoading={this.state.loading}
-                    />
 
-                    <Unlock
-                      web3Address={this.state.web3Address}
-                      mainAccountPass={this.state.mainAccountPass}
-                      mainAccount={this.state.mainAccount}
-                      onUnlock={this.showLoading}
-                      onUnlocked={this.onUnlocked}
-                      onError={this.handleError}
-                      isLoading={this.state.loading}
-                    />
-                    <Deploy
-                      contract={this.state.contract}
-                      contractName={this.state.contractName}
-                      web3Address={this.state.web3Address}
-                      mainAccount={this.state.mainAccount}
-                      mainAccountPass={this.state.mainAccountPass}
-                      gas={this.state.gas}
-                      contractArguments={this.state.contractArguments}
-                      onDeploy={this.showLoading}
-                      onError={this.handleError}
-                      onDeployed={this.onDeployed}
-                      isLoading={this.state.loading}
-                    />
-                    <AlreadyDeployed
-                      web3Address={this.state.web3Address}
-                      mainAccount={this.state.mainAccount}
-                      gas={this.state.gas}
-                      onDeploy={this.showLoading}
-                      onError={this.handleError}
-                      onDeployed={this.onDeployed}
-                      isLoading={this.state.loading}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid item sm={12} xs={12}>
-                  <Grid container justify={'center'} spacing={24}>
-                    <ReactTerminal
-                      web3Address={this.state.web3Address}
-                      logEvent={this.logEventsToGA}
-                    />
-                  </Grid>
-                </Grid>
+                      <Grid item sm={12} xs={12}>
+                        <Grid container className={classes.tree}>
+                          <Compile
+                            contract={this.state.contract}
+                            web3Address={this.state.web3Address}
+                            onCompile={this.showLoading}
+                            onError={this.handleError}
+                            onCompiled={this.onCompiled}
+                            isLoading={this.state.loading}
+                          />
+
+                          <Unlock
+                            web3Address={this.state.web3Address}
+                            mainAccountPass={this.state.mainAccountPass}
+                            mainAccount={this.state.mainAccount}
+                            onUnlock={this.showLoading}
+                            onUnlocked={this.onUnlocked}
+                            onError={this.handleError}
+                            isLoading={this.state.loading}
+                          />
+                          <Deploy
+                            contract={this.state.contract}
+                            contractName={this.state.contractName}
+                            web3Address={this.state.web3Address}
+                            mainAccount={this.state.mainAccount}
+                            mainAccountPass={this.state.mainAccountPass}
+                            gas={this.state.gas}
+                            contractArguments={this.state.contractArguments}
+                            onDeploy={this.showLoading}
+                            onError={this.handleError}
+                            onDeployed={this.onDeployed}
+                            isLoading={this.state.loading}
+                          />
+                          <AlreadyDeployed
+                            web3Address={this.state.web3Address}
+                            mainAccount={this.state.mainAccount}
+                            gas={this.state.gas}
+                            onDeploy={this.showLoading}
+                            onError={this.handleError}
+                            onDeployed={this.onDeployed}
+                            isLoading={this.state.loading}
+                          />
+                        </Grid>
+                        <ReactTerminal
+                          web3Address={this.state.web3Address}
+                          logEvent={this.logEventsToGA}
+                        />
+                      </Grid>
+                    </React.Fragment>
+                  )}
               </MuiThemeProvider>
             </Grid>
           </Grid>
-
-          <InfoModel
-            open={this.state.openDialog}
-            handleClose={this.handleDialogClose}
-            logEvent={this.logEventsToGA}
-          />
         </Grid>
+
+        <InfoModel
+          open={this.state.openDialog}
+          handleClose={this.handleDialogClose}
+          logEvent={this.logEventsToGA}
+        />
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           open={this.state.showAlert}

@@ -116,7 +116,7 @@ class AlreadyDeployed extends React.Component<Props, State> {
                     <TextField
                       label={'Abi'}
                       onChange={this.handleInputChange('abi')}
-                      placeholder={'[]'}
+                      placeholder={'[{},...{}]'}
                       margin="normal"
                       className={classes.textField}
                       value={this.state.abi}
@@ -137,6 +137,7 @@ class AlreadyDeployed extends React.Component<Props, State> {
                       value={this.state.deployedContractAddress}
                       className={classes.textField}
                       margin="normal"
+                      placeholder={'0x'}
                       InputProps={{
                         className: classes.input
                       }}

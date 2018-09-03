@@ -26,7 +26,8 @@ class ReactTerminal extends React.Component<Props, {}> {
             hideTopBar
             msg="Execute 'help' to view list of available commands"
             style={{
-              marginTop: '1rem',
+              marginTop: '-2.5rem',
+              padding: '.7rem',
               fontSize: '1rem'
             }}
             commands={{
