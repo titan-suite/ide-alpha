@@ -299,6 +299,25 @@ contract Example {
     if (state) {
       this.setState(state)
     }
+
+    if (
+      !/Google Inc/.test(navigator.vendor) &&
+      process.env.NODE_ENV === 'production'
+    ) {
+      this.setState({
+        showAlert: true,
+        alertMessage: `
+          <div>
+            <p>
+              <b>Warning:</b> This website may not work as expected in this
+              browser.
+            </p>
+            <p style="margin-left: 15%">
+              Please use Google Chrome for best experience.
+            </p>
+          </div>`
+      })
+    }
   }
 
   componentDidUpdate() {
@@ -596,7 +615,12 @@ contract Example {
               root: classes.unLockSnackBar
             }
           }}
-          message={<span id="message-id">{this.state.alertMessage}</span>}
+          message={
+            <span
+              id="inApp-notification-message"
+              dangerouslySetInnerHTML={{ __html: this.state.alertMessage }}
+            />
+          }
           action={[
             <IconButton
               key="close"
