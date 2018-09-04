@@ -168,7 +168,9 @@ contract Example {
       },
       showPlayground: true,
       loading: false,
-      error: null
+      error: null,
+      showAlert: true,
+      alertMessage: 'Contract Successfully Deployed'
     })
     this.logEventsToGA('Deployed')
   }
@@ -202,7 +204,7 @@ contract Example {
     await this.setState({
       loading: false,
       showAlert: true,
-      alertMessage: 'Unlock successful',
+      alertMessage: `${this.state.mainAccount} Successfully Unlocked`,
       error: null
     })
     this.logEventsToGA('Unlocked')
